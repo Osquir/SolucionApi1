@@ -1,0 +1,105 @@
+﻿@page "/alumno"
+@page "/alumno/{idAlumnoEditar:int}"
+
+
+
+@using InstitucionCrud.Shared;
+@using CurrieTechnologies.Razor.SweetAlert2;
+@using BlazorCrud.Client.Services;
+
+
+@inject IAlumnoService alumnoService;
+@inject NavigationManager navegacion;
+
+<h3>@titulo</h3>
+
+<EditForm Model="alumno" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="mb-3">
+        <label class="form-label">Primer Nombre</label>
+        <InputText class="form-control" @bind-Value="alumno.PrimerNombre"></InputText>
+        <ValidationMessage For="@(()=> alumno.PrimerNombre)"></ValidationMessage>
+
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Segundo Nombre</label>
+        <InputText class="form-control" @bind-Value="alumno.SegundoNombre"></InputText>
+        <ValidationMessage For="@(()=> alumno.SegundoNombre)"></ValidationMessage>
+
+    </div>
+
+        <div class="mb-3">
+        <label class="form-label">Primer Apellido</label>
+        <InputText class="form-control" @bind-Value="alumno.PrimerApellido"></InputText>
+        <ValidationMessage For="@(()=> alumno.PrimerNombre)"></ValidationMessage>
+
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Segundo Apellido</label>
+        <InputText class="form-control" @bind-Value="alumno.SegundoApellido"></InputText>
+        <ValidationMessage For="@(()=> alumno.SegundoApellido)"></ValidationMessage>
+    <option> </option>
+
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Codigo</label>
+        <InputText class="form-control" @bind-Value="alumno.Codigo"></InputText>
+        <ValidationMessage For="@(()=> alumno.Codigo)"></ValidationMessage>
+    <option> </option>
+
+    </div>
+    <button class="btn btn-primary" type="submit">
+        @btnTexto
+    </button>
+
+    <a class="btn btn-warning" href="alumnos">Volver</a>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int idAlumnoEditar { get; set; } = 0;
+
+    string titulo = string.Empty;
+    string btnTexto = string.Empty;
+
+    AlumnoDTO alumno = new AlumnoDTO();
+    List<AlumnoDTO> listaAlumno = new List<AlumnoDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (idAlumnoEditar!= 0)
+        {
+            alumno = await alumnoService.Buscar(idAlumnoEditar);
+            btnTexto = "Actualizar Alumno";
+            titulo = "Editar Alumno";
+        }
+        else
+        {
+            btnTexto = "Guardar Alumno";
+            titulo = "Nuevo Alumno";
+        }
+        listaAlumno = await alumnoService.Lista();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        int idDevuelto = 0;
+        if (idAlumnoEditar == 0)
+
+            idDevuelto = await alumnoService.Guardar(alumno);
+        else
+            idDevuelto = await alumnoService.Editar(alumno);
+
+        if (idDevuelto != 0)
+            navegacion.NavigateTo("/alumnos");
+
+
+    }
+
+
+}
+

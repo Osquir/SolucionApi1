@@ -1,0 +1,42 @@
+﻿@page "/alumnosCurso"
+
+@using InstitucionCrud.Shared;
+@using CurrieTechnologies.Razor.SweetAlert2;
+@using BlazorCrud.Client.Services;
+
+@inject SweetAlertService Swal;
+@inject IAlumnoService alumnoCursoService
+
+<h3>AlumnosCursos</h3>
+
+
+@code {
+    List<AlumnoCursoDTO>? listaAlumnosCurso = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //listaAlumnosCurso = await AlumnoCursoServices.Lista() ;
+    }
+
+    private async Task Eliminar(int id)
+    {
+        var resultado = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Eliminar Alumno",
+                Text = "Deseas Eliminar Alumno?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+
+            });
+        if (resultado.IsConfirmed)
+        {
+            var eliminado = await alumnoCursoService.Eliminar(id);
+
+            if (eliminado) { }
+            //listaAlumnoCurso = listaAlumnoCurso!.FindAll(e => e.IdAlumno != id);
+
+        }
+
+    }
+
+}

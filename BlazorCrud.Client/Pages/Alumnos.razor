@@ -1,0 +1,93 @@
+﻿@page "/alumnos"
+
+@using InstitucionCrud.Shared;
+@using CurrieTechnologies.Razor.SweetAlert2;
+@using BlazorCrud.Client.Services;
+
+@inject SweetAlertService Swal;
+@inject IAlumnoService alumnoService
+
+
+<h3>Alumnos</h3>
+ <a class="btn btn-success-sm mb-3" href="alumno">Nuevo Alumno</a>
+ <table class ="table">
+     <tread>
+         <tr>
+            <th>Primer Nombre</th>
+            <th>Segundo Nombre</th>
+            <th>Primer Apellido </th>
+            <th>Segundo Apellido</th>
+            <th>Código</th>
+            <th></th>
+         </tr>
+
+     </tread>
+     <body>
+        @if(listaAlumnos == null)
+        {
+           <tr>
+               <td colspan="5" align="center">
+                <img style="width:50pbx" src="https://media.tenor.com/v3-fyOu0rYUAAAAj/cargando-loading.gif"/>
+ 
+               </td>
+            </tr>
+        }
+        else
+        {
+            @foreach(var item in listaAlumnos)
+            {
+                <tr>
+                    <td>@item.PrimerNombre</td>
+                    <td>@item.SegundoNombre</td>
+                    <td>@item.PrimerApellido</td>
+                    <td>@item.SegundoApellido</td>
+                    <td>@item.Codigo</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="alumno/@item.IdAlumno">
+                        <i class="oi oi-pencil"></i>
+                    </a>
+                    <button type="button" class="btn btn-danger btn-sm ms-2" @onclick="(()=> Eliminar(item.IdAlumno))">
+                        <i class="oi oi-trash"></i>
+                    </button>
+                            
+                    </td>
+                </tr>
+            }
+
+        }
+
+     </body>
+
+ </table>
+
+
+@code {
+    List<AlumnoDTO>? listaAlumnos = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaAlumnos = await alumnoService.Lista();
+    }
+
+    private async Task Eliminar(int id)
+    {
+        var resultado = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Eliminar Alumno",
+                Text = "Deseas Eliminar Alumno?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true 
+
+            });
+        if (resultado.IsConfirmed)
+        {
+            var eliminado = await alumnoService.Eliminar(id);
+
+            if (eliminado)
+                listaAlumnos = listaAlumnos!.FindAll(e => e.IdAlumno!= id);
+
+        } 
+
+    }
+
+}
