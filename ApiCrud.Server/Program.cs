@@ -2,10 +2,10 @@ using ApiCrud.Server.Models;
 using Microsoft.EntityFrameworkCore;
 
 //Referencia Token
-using ApiCrud.Server.Services;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+//using ApiCrud.Server.Services;
+//using System.Text;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +36,7 @@ builder.Services.AddCors(opciones =>
 });
 
 //Token
-builder.Services.AddScoped<IAutorizationService, AutorizationService>();
+/*builder.Services.AddScoped<IAutorizationService, AutorizationService>();
 var key = builder.Configuration.GetValue<string>("JwtSettings:key");
 var keyBytes = Encoding.ASCII.GetBytes(key);
 
@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(config =>
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
-});
+});*/
 
 var app = builder.Build();
 
@@ -74,9 +74,9 @@ app.UseHttpsRedirection();
 app.UseCors("nuevaPolitica");
 
 //Token
-app.UseAuthentication();
+//app.UseAuthentication();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 

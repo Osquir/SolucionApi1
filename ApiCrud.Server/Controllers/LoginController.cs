@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 //Referencias
-using ApiCrud.Server.Models.Custom;
+/*using ApiCrud.Server.Models.Custom;
 using ApiCrud.Server.Services;
 
 namespace ApiCrud.Server.Controllers
@@ -31,4 +31,4 @@ namespace ApiCrud.Server.Controllers
             return Ok(resultado_autorizacion);
         }
     }
-}
+}*/

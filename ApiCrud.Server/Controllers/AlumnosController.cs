@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 //Autorization Token
-using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Authorization;
 
 namespace ApiCrud.Server.Controllers
 {

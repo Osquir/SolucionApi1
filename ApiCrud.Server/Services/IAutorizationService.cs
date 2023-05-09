@@ -1,4 +1,4 @@
-﻿using ApiCrud.Server.Models.Custom;
+﻿/*using ApiCrud.Server.Models.Custom;
 
 namespace ApiCrud.Server.Services
 {
@@ -7,3 +7,4 @@ namespace ApiCrud.Server.Services
         Task<AutorizationResponse> DevolverToken(AutorizationRequest autorization);
     }
 }
+*/
